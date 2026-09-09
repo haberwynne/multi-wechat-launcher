@@ -1,44 +1,72 @@
-# Multi WeChat Launcher (Windows BAT)
+# Multi WeChat Launcher
 
-一个轻量级的 Windows 批处理脚本，可在 Windows 上同时启动指定数量的微信客户端。
+A lightweight cross-platform toolkit for launching multiple WeChat (微信) client instances at the same time.
 
-## 功能特性
+| Platform | Script | How it works |
+|----------|--------|--------------|
+| Windows  | `multi_wechat.bat`       | Loop `start "" Weixin.exe` with 500ms delay |
+| macOS    | `multi_wechat_mac.sh`    | Copy `WeChat.app` to temp dir and `open -n` each copy |
 
-- 启动前自动校验微信可执行文件是否存在
-- 交互式输入需要打开的微信数量
-- 输入校验：仅接受正整数
-- 启动间隔可调，避免瞬时高并发
-- 纯 BAT 实现，无需额外依赖
+## Features
 
-## 使用方法
+- Start multiple WeChat instances in one click
+- Input validation (positive integers only)
+- Configurable launch interval
+- Cross-platform: Windows BAT + macOS Shell
+- No external dependencies
 
-1. 确认本机微信安装路径（默认假设为 `D:\Tencent\Weixin\Weixin.exe`）
-2. 如路径不同，编辑 `multi_wechat.bat` 中的 `WECHAT_PATH` 变量
-3. 双击运行 `multi_wechat.bat`
-4. 按提示输入要打开的微信数量（例如 3）
-5. 脚本将依次启动对应数量的微信实例，每个实例之间延迟 500 毫秒
-
-## 系统要求
-
-- Windows 7 / 10 / 11
-- 已安装 PC 版微信（建议 3.x 及以上版本）
-
-## 注意事项
-
-- 微信多开可能违反腾讯微信软件许可协议，仅供学习与测试使用，请勿用于商业用途
-- 启动数量过多可能导致系统资源占用上升，请根据电脑配置合理设置
-- 如微信实际安装路径与脚本中不同，请修改 `WECHAT_PATH` 变量
-
-## 项目结构
+## Project Structure
 
 ```
 .
-├── README.md            # 本文件
-├── multi_wechat.bat     # 主脚本
-└── docs/
-    └── usage.md         # 详细使用文档
+├── README.md
+├── multi_wechat.bat       # Windows version
+├── multi_wechat_mac.sh    # macOS version
+├── docs/
+│   └── usage.md           # Detailed usage guide
+└── .gitignore
 ```
 
-## 许可
+## Quick Start
 
-仅供个人学习与研究使用。
+### Windows
+
+1. Make sure WeChat (微信) is installed. Default path: `D:\Tencent\Weixin\Weixin.exe`
+2. Edit `multi_wechat.bat` if your WeChat path is different
+3. Double-click `multi_wechat.bat`
+4. Enter the number of instances (e.g. `3`)
+
+### macOS
+
+1. Make sure WeChat is installed at `/Applications/WeChat.app`
+2. Open Terminal, `cd` to the directory containing `multi_wechat_mac.sh`
+3. Make it executable: `chmod +x multi_wechat_mac.sh`
+4. Run it: `./multi_wechat_mac.sh`
+5. Enter the number of instances
+
+## Requirements
+
+- Windows 7/10/11 or macOS 10.13+
+- WeChat installed (PC / Mac client)
+
+## Configuration
+
+| Variable (Windows) | Default | Description |
+|--------------------|---------|-------------|
+| `WECHAT_PATH`      | `D:\Tencent\Weixin\Weixin.exe` | Path to WeChat executable |
+| `ping -w` delay    | `500`   | Inter-launch delay in ms |
+
+| Variable (macOS)   | Default | Description |
+|--------------------|---------|-------------|
+| `WECHAT_APP`       | `/Applications/WeChat.app` | Path to WeChat.app |
+| `LAUNCH_DELAY`     | `1`     | Inter-launch delay in seconds |
+| `COPY_PREFIX`      | `/tmp/wechat_multi_` | Temp dir for app copies |
+| `USE_METHOD_1`     | `0`     | Set to `1` to use `open -n` directly (no copy) |
+
+## Disclaimer
+
+This project is for personal learning and research only. Multi-account usage of WeChat may violate Tencent's terms of service. Use at your own risk and please comply with local laws and platform rules.
+
+## License
+
+MIT (or use freely for personal purposes).
